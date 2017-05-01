@@ -1,0 +1,22 @@
+[
+    {
+        "header" : "Nifty touches 5000",
+        "imgsrc" : "images1.jpg",
+        "description" : "In a phenomenal event nifty touches 5000 and market is expected an upward turn"
+    },
+    {
+        "header" : "Sensex touches 10000",
+        "imgsrc" : "images2.jpg",
+        "description" : "In a phenomenal event Sensex touches 10000 and market is expected an upward turn"
+    },
+    {
+        "header" : "HDFC shares increases",
+        "imgsrc" : "images3.png",
+        "description" : "HSFC shares prices increases amidst strong market investment."
+    },
+    {
+        "header" : "Housing loan eases",
+        "imgsrc" : "images4.jpg",
+        "description" : "In an unprecedented move the rate of interest of housing loan decreases.It may be speculated due to demonitsation"
+    }
+]
