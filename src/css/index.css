@@ -132,6 +132,24 @@ body{
 .add-feed input{
     width : 100%;
 }
+
+
+.add-story{
+    width : 44%;
+    height : 1000px;
+}
+.add-story table td{
+    padding : 10px;
+}
+.add-story textarea{
+    resize : none;
+}
+.add-story input{
+    width : 100%;
+}
+
+
+
 #post-btn{
     width : 100px;
 }
@@ -149,4 +167,51 @@ body{
     position: relative;
     left: 10%;
 
+}
+.display-block-cls{
+    display : block !important;
+}
+.vote-cls{
+    text-align:center;
+}
+#read,#delete{
+    margin-right: 10px !important;
+}
+.upvote{
+background : green;
+color : white;
+padding:2px;
+}
+.downvote{
+    background : red;
+    color : white;
+    padding:2px;
+}
+.imp-cls{
+    border-top :1px solid red !important;
+}
+.hr-cls{
+    border-top :1px solid #139ff0 !important;
+}
+.hide-cls{
+    display : none;
+}
+.create-btn{
+    margin-right : 5px;
+    
+}
+.fixed-cls{
+    position : fixed;
+}
+.float-right{
+    float : right;
+}
+#story-btn{
+left :70%;
+}
+#feed-btn{
+left : 80%;
+}
+.add-story-top{
+    top : 200px;
 }
