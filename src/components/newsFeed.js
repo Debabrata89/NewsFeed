@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import Stories from './Stories'; 
+import Stories from './Stories';
 export default class NewsFeed extends React.Component {
     constructor(props) {
         super(props);
@@ -53,15 +53,18 @@ export default class NewsFeed extends React.Component {
         arr[parseInt(index)] = arr[parseInt(index)] + 1;
         this.setState({ counterArr: arr });
     }
-    handlePost() {
+    handlePost(header, description) {
         // console.log(document.querySelector("#title-input").value,document.querySelector("#description-input").value)
         let tempObj = { imgsrc: "images1.jpg" };
-        tempObj.header = document.querySelector("#title-input").value;
-        tempObj.description = document.querySelector("#description-input").value;
+        // tempObj.header = document.querySelector("#title-input").value;
+        // tempObj.description = document.querySelector("#description-input").value;
+        tempObj.header = header;
+        tempObj.description = description;
+
         let tempArr = this.state.feed;
         tempArr.push(tempObj);
         let counterArr = this.state.counterArr.push(0);
-        this.setState({ showPopUp: false });
+        this.setState({ showStoryPopUp: false });
     }
     handleClose() {
         this.setState({ showPopUp: false, showStoryPopUp: false })
@@ -76,45 +79,8 @@ export default class NewsFeed extends React.Component {
     render() {
         return (
             <div className="email-class lis-cls">
-                {this.state.showPopUp ? <div className={'popup-cls'}>
-                    <div className={'add-feed email-class'}>
-                        <img onClick={this.handleClose} className="cross-cls" src="src/img/cross.png" alt="Smiley face" height="35" width="35" />
-                        <h4 className="list-header">Create Feed</h4>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        Title
-                                </td>
-                                    <td>
-                                        <input type="text" id="title-input" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Description </td>
-                                    <td> <textarea rows="4" cols="50" id="description-input"></textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td><button onClick={this.handlePost} id="post-btn" type="button" className="btn btn-primary" >Post</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-                    </div>
-                </div> : null}
-
-
-
-                {this.state.showStoryPopUp ? <Stories handleClose={this.handleClose}/> : null}
-
-
-
-                {this.props.userType === 'admin' ? <button id="story-btn" type="button" className="btn btn-primary fixed-cls" style={{ display: this.state.showPopUp || this.state.showStoryPopUp ? 'none' : 'inline-block' }} onClick={this.handleCreateStories} >Create Stories</button> : null}
-                {this.props.userType === 'admin' ? <button id="feed-btn" type="button" className="btn btn-primary fixed-cls" style={{ display: this.state.showPopUp || this.state.showStoryPopUp ? 'none' : 'inline-block' }} onClick={this.handleCreateFeed}>Create Feed</button> : null}
+                {this.state.showStoryPopUp ? <Stories handlePost={this.handlePost} handleClose={this.handleClose} /> : null}
+                {this.props.userType === 'admin' ? <button id="story-btn" type="button" className="btn btn-primary fixed-cls fa fa-pencil" style={{ display: this.state.showPopUp || this.state.showStoryPopUp ? 'none' : 'inline-block' }} onClick={this.handleCreateStories} > &nbsp;Create Stories</button> : null}
 
                 {this.state.feed.map((feed, index) => {
                     return (<div key={index} id={index} className={this.state.showPopUp || this.state.showStoryPopUp ? 'row row-feed hide-cls' : this.state.deleteArr[index] ? 'row row-feed hide-cls' : 'row row-feed'} >
