@@ -22,7 +22,6 @@ export default class Stories extends React.Component {
     render() {
         return (<div className={'popup-cls add-story-top'}>
             <div className={'add-story email-class'}>
-                <img onClick={this.handleClose} className="cross-cls" src="src/img/cross.png" alt="Smiley face" height="35" width="35" />
                 <h4 className="list-header">Create Stories</h4>
                 <table>
                     <tbody>
@@ -115,6 +114,8 @@ export default class Stories extends React.Component {
                         <tr>
                             <td></td>
                             <td><button onClick={this.handlePost}  id="post-btn" type="button" className="btn btn-primary fa fa-envelope" >&nbsp;Post</button>
+                                 <button onClick={this.handleClose} type="button" style={{marginLeft :'10px'}} className="btn btn-danger fa fa-close" >&nbsp;Cancel</button>
+
                             </td>
                         </tr>
                     </tbody>

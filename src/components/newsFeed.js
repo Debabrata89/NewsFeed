@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import Stories from './Stories';
+import LeftPane from './LeftPane';
+
 export default class NewsFeed extends React.Component {
     constructor(props) {
         super(props);
@@ -78,37 +80,43 @@ export default class NewsFeed extends React.Component {
 
     render() {
         return (
-            <div className="email-class lis-cls">
-                {this.state.showStoryPopUp ? <Stories handlePost={this.handlePost} handleClose={this.handleClose} /> : null}
-                {this.props.userType === 'admin' ? <button id="story-btn" type="button" className="btn btn-primary fixed-cls fa fa-pencil" style={{ display: this.state.showPopUp || this.state.showStoryPopUp ? 'none' : 'inline-block' }} onClick={this.handleCreateStories} > &nbsp;Create Stories</button> : null}
+            <div className="row">
+                {!this.state.showStoryPopUp ? <div className="header row">TradeX</div> : null}
+                 {!this.state.showStoryPopUp ? <LeftPane  userType={this.props.userType} handleCreateStories={this.handleCreateStories}/> : null}
+                <div id="main-content" className={this.state.showStoryPopUp ? "email-class lis-cls col-md-12" : "email-class lis-cls col-md-10 float-right"}>
 
-                {this.state.feed.map((feed, index) => {
-                    return (<div key={index} id={index} className={this.state.showPopUp || this.state.showStoryPopUp ? 'row row-feed hide-cls' : this.state.deleteArr[index] ? 'row row-feed hide-cls' : 'row row-feed'} >
-                        <h4 className="list-header">{feed.header}</h4>
-                        <img src={"src/img/" + feed.imgsrc} alt="Smiley face" height="100" width="100" />
-                        <span className="feed-text">{feed.description}</span>
-                        <div className="row">
-                            <div className="col-md-1">
-                                <span className={this.state.readArr[index] ? "fa fa-check-circle pull-right" : ""}></span>
-                            </div>
-                            <div className="col-md-1">
-                                <div className="pull-right">
-                                    <div className="fa fa-arrow-up display-block-cls" onClick={this.increment.bind(this, index)}></div>
-                                    <div className={this.state.counterArr[index] == 0 ? "vote-cls" : this.state.counterArr[index] > 0 ? "vote-cls upvote" : "vote-cls downvote"}>
-                                        {this.state.counterArr[index]}
-                                    </div>
-                                    <div className="fa fa-arrow-down display-block-cls" onClick={this.decrement.bind(this, index)}> </div>
+                    {this.state.showStoryPopUp ? <Stories handlePost={this.handlePost} handleClose={this.handleClose} /> : null}
+                    {/*this.props.userType === 'admin' ? <button id="story-btn" type="button" className="btn btn-primary fixed-cls fa fa-pencil" style={{ display: this.state.showPopUp || this.state.showStoryPopUp ? 'none' : 'inline-block' }} onClick={this.handleCreateStories} > &nbsp;Create Stories</button> : null*/}
+
+                    {this.state.feed.map((feed, index) => {
+                        return (<div key={index} id={index} className={this.state.showPopUp || this.state.showStoryPopUp ? 'row row-feed hide-cls' : this.state.deleteArr[index] ? 'row row-feed hide-cls' : 'row row-feed'} >
+                            <h4 className="list-header">{feed.header}</h4>
+                            <img src={"src/img/" + feed.imgsrc} alt="Smiley face" height="100" width="100" />
+                            <span className="feed-text">{feed.description}</span>
+                            <div className="row">
+                                <div className="col-md-1">
+                                    <span className={this.state.readArr[index] ? "fa fa-check-circle pull-right" : ""}></span>
+                                </div>
+                                <div className="col-md-1">
+                                     {this.props.userType !== 'admin' ?
+                                    <div className="pull-right">
+                                        <div className="fa fa-arrow-up display-block-cls" onClick={this.increment.bind(this, index)}></div>
+                                        <div className={this.state.counterArr[index] == 0 ? "vote-cls" : this.state.counterArr[index] > 0 ? "vote-cls upvote" : "vote-cls downvote"}>
+                                            {this.state.counterArr[index]}
+                                        </div>
+                                        <div className="fa fa-arrow-down display-block-cls" onClick={this.decrement.bind(this, index)}> </div>
+                                    </div>:null}
+                                </div>
+                                <div className="col-md-8">
+                                    <button id="read" className="btn btn-success fa fa-pencil" onClick={this.changeReadFlag.bind(this, index)}>&nbsp;Read </button>
+                                   {this.props.userType === 'admin' ? <button id="delete" className="btn btn-danger fa fa-trash-o" onClick={this.handleDelete.bind(this, index)}>&nbsp;Delete </button>:null}
+                                    <button className="btn btn-primary fa fa-exclamation" onClick={this.changeImportant.bind(this, index)}>&nbsp;Important </button>
                                 </div>
                             </div>
-                            <div className="col-md-8">
-                                <button id="read" className="btn btn-success fa fa-pencil" onClick={this.changeReadFlag.bind(this, index)}>&nbsp;Read </button>
-                                <button id="delete" className="btn btn-danger fa fa-trash-o" onClick={this.handleDelete.bind(this, index)}>&nbsp;Delete </button>
-                                <button className="btn btn-primary fa fa-exclamation" onClick={this.changeImportant.bind(this, index)}>&nbsp;Important </button>
-                            </div>
-                        </div>
-                        <hr className={this.state.importantArr[index] ? 'imp-cls' : 'hr-cls'} />
-                    </div>)
-                })}
+                            <hr className={this.state.importantArr[index] ? 'imp-cls' : 'hr-cls'} />
+                        </div>)
+                    })}
+                </div>
             </div>
         );
     }
