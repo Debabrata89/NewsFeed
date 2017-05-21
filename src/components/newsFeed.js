@@ -2,15 +2,19 @@ import React from 'react';
 import axios from 'axios';
 import Stories from './Stories';
 import LeftPane from './LeftPane';
+import Detail from './Detail';
 
 export default class NewsFeed extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { feed: [], showPopUp: false, showStoryPopUp: false, readArr: [], importantArr: [], counterArr: [], deleteArr: [] };
+        this.state = { feed: [],detailObj:{}, originalFeed: [], showPopUp: false,showDetailPopUp : false, showStoryPopUp: false, readArr: [], importantArr: [], counterArr: [], deleteArr: [] };
         this.handleClose = this.handleClose.bind(this);
         this.handleCreateFeed = this.handleCreateFeed.bind(this);
         this.handlePost = this.handlePost.bind(this);
         this.handleCreateStories = this.handleCreateStories.bind(this);
+        this.searchHandler = this.searchHandler.bind(this);
+        this.handleDetail = this.handleDetail.bind(this);
+        this.handleRowClick = this.handleRowClick.bind(this);
     }
     componentWillMount() {
         let self = this;
@@ -30,27 +34,56 @@ export default class NewsFeed extends React.Component {
                 console.log(error);
             });
     }
-    changeImportant(index) {
+    searchHandler(event) {
+        console.log("inside search handler", arguments, event.target.value);
+        let header = event.target.value;
+        let feedArr = [];
+        if(header!==""){
+            let originalFeed = this.state.feed.map((feed, index) => {
+            return feed;
+        });
+        this.state.feed.map((feed, index) => {
+            if (feed.header.toUpperCase().indexOf(header.toUpperCase()) != -1) {
+                feedArr.push(feed);
+            }
+        });
+        if(this.state.originalFeed.length===0){
+            this.setState({originalFeed :originalFeed,  feed: feedArr });
+        }else{
+            this.setState({feed: feedArr });
+        }
+        
+        }else{
+            this.setState({feed : this.state.originalFeed});
+        }
+        
+    }
+    changeImportant(index,event) {
+         event.stopPropagation();
         let arr = this.state.importantArr;
         arr[parseInt(index)] = !arr[parseInt(index)];
         this.setState({ importantArr: arr });
     }
-    changeReadFlag(index) {
+    changeReadFlag(index,event) {
+         event.stopPropagation();
         let arr = this.state.readArr;
         arr[parseInt(index)] = !arr[parseInt(index)];
         this.setState({ readArr: arr });
     }
-    decrement(index) {
+    decrement(index,event) {
+         event.stopPropagation();
         let arr = this.state.counterArr;
         arr[parseInt(index)] = arr[parseInt(index)] - 1;
         this.setState({ counterArr: arr });
     }
-    handleDelete(index) {
+    handleDelete(index,event) {
+         event.stopPropagation();
         let arr = this.state.deleteArr;
         arr[parseInt(index)] = !arr[parseInt(index)];
         this.setState({ deleteArr: arr });
     }
-    increment(index) {
+    increment(index,event) {
+         event.stopPropagation();
         let arr = this.state.counterArr;
         arr[parseInt(index)] = arr[parseInt(index)] + 1;
         this.setState({ counterArr: arr });
@@ -69,7 +102,7 @@ export default class NewsFeed extends React.Component {
         this.setState({ showStoryPopUp: false });
     }
     handleClose() {
-        this.setState({ showPopUp: false, showStoryPopUp: false })
+        this.setState({ showPopUp: false, showStoryPopUp: false,showDetailPopUp : false })
     }
     handleCreateFeed() {
         this.setState({ showPopUp: true });
@@ -77,39 +110,57 @@ export default class NewsFeed extends React.Component {
     handleCreateStories() {
         this.setState({ showStoryPopUp: true });
     }
+    handleRowClick(event){
+        console.log("inside handle detail",event.target.id);
+        let rowObj={};
+        for(let [index,feed] of this.state.feed.entries()){
+            console.log("inside handlerowclick",index,feed);
+            if(event.target.id==index){
+                rowObj = feed;
+                break;
+            }
+        }
+         this.setState({ showDetailPopUp: true,detailObj : rowObj });
+    }
+    handleDetail(event){
+        
+    }
 
     render() {
         return (
             <div className="row">
-                {!this.state.showStoryPopUp ? <div className="header row">TradeX</div> : null}
-                 {!this.state.showStoryPopUp ? <LeftPane  userType={this.props.userType} handleCreateStories={this.handleCreateStories}/> : null}
-                <div id="main-content" className={this.state.showStoryPopUp ? "email-class lis-cls col-md-12" : "email-class lis-cls col-md-10 float-right"}>
+                {!this.state.showStoryPopUp && !this.state.showDetailPopUp ? <div className="header row">TradeX</div> : null}
+                {!this.state.showStoryPopUp && !this.state.showDetailPopUp ? <LeftPane userType={this.props.userType} handleCreateStories={this.handleCreateStories} /> : null}
+
+                <div id="main-content" className={this.state.showStoryPopUp || this.state.showDetailPopUp ? "email-class lis-cls col-md-12" : "email-class lis-cls col-md-10 float-right"}>
 
                     {this.state.showStoryPopUp ? <Stories handlePost={this.handlePost} handleClose={this.handleClose} /> : null}
+                    {this.state.showDetailPopUp ? <Detail data={this.state.detailObj} handleClose={this.handleClose} /> : null}
                     {/*this.props.userType === 'admin' ? <button id="story-btn" type="button" className="btn btn-primary fixed-cls fa fa-pencil" style={{ display: this.state.showPopUp || this.state.showStoryPopUp ? 'none' : 'inline-block' }} onClick={this.handleCreateStories} > &nbsp;Create Stories</button> : null*/}
-
+                    <div className="row"><div className="col-md-10 float-right fa fa-search"><input className="search-cls" onChange={this.searchHandler} /></div>
+                    </div>
                     {this.state.feed.map((feed, index) => {
-                        return (<div key={index} id={index} className={this.state.showPopUp || this.state.showStoryPopUp ? 'row row-feed hide-cls' : this.state.deleteArr[index] ? 'row row-feed hide-cls' : 'row row-feed'} >
+                        return (<div onClick={this.handleRowClick} key={index} id={index} className={this.state.showPopUp || this.state.showStoryPopUp ? 'row row-feed hide-cls' : this.state.deleteArr[index] ? 'row row-feed hide-cls' : 'row row-feed'} >
                             <h4 className="list-header">{feed.header}</h4>
-                            <img src={"src/img/" + feed.imgsrc} alt="Smiley face" height="100" width="100" />
+                            <img className="img-cls"  src={"src/img/" + feed.imgsrc} alt="Smiley face" height="40" width="40" />
                             <span className="feed-text">{feed.description}</span>
                             <div className="row">
                                 <div className="col-md-1">
                                     <span className={this.state.readArr[index] ? "fa fa-check-circle pull-right" : ""}></span>
                                 </div>
                                 <div className="col-md-1">
-                                     {this.props.userType !== 'admin' ?
-                                    <div className="pull-right">
-                                        <div className="fa fa-arrow-up display-block-cls" onClick={this.increment.bind(this, index)}></div>
-                                        <div className={this.state.counterArr[index] == 0 ? "vote-cls" : this.state.counterArr[index] > 0 ? "vote-cls upvote" : "vote-cls downvote"}>
-                                            {this.state.counterArr[index]}
-                                        </div>
-                                        <div className="fa fa-arrow-down display-block-cls" onClick={this.decrement.bind(this, index)}> </div>
-                                    </div>:null}
+                                    {this.props.userType !== 'admin' ?
+                                        <div className="pull-right">
+                                            <div className="fa fa-arrow-up display-block-cls" onClick={this.increment.bind(this, index)}></div>
+                                            <div className={this.state.counterArr[index] == 0 ? "vote-cls" : this.state.counterArr[index] > 0 ? "vote-cls upvote" : "vote-cls downvote"}>
+                                                {this.state.counterArr[index]}
+                                            </div>
+                                            <div className="fa fa-arrow-down display-block-cls" onClick={this.decrement.bind(this, index)}> </div>
+                                        </div> : null}
                                 </div>
                                 <div className="col-md-8">
                                     <button id="read" className="btn btn-success fa fa-pencil" onClick={this.changeReadFlag.bind(this, index)}>&nbsp;Read </button>
-                                   {this.props.userType === 'admin' ? <button id="delete" className="btn btn-danger fa fa-trash-o" onClick={this.handleDelete.bind(this, index)}>&nbsp;Delete </button>:null}
+                                    {this.props.userType === 'admin' ? <button id="delete" className="btn btn-danger fa fa-trash-o" onClick={this.handleDelete.bind(this, index)}>&nbsp;Delete </button> : null}
                                     <button className="btn btn-primary fa fa-exclamation" onClick={this.changeImportant.bind(this, index)}>&nbsp;Important </button>
                                 </div>
                             </div>

@@ -257,4 +257,22 @@ padding-right:5%;
     font-weight: bold;
     padding-top : 15px;
 }
-
+h4{
+    margin-top: 6px !important;
+    margin-bottom:6px !important; 
+}
+.search-cls{
+    width : 70% !important;
+    margin-top: 10px;
+    height: 30px !important;
+    border-radius: 5px;
+    border : 1px solid gray;
+    padding-left : 14px;
+}
+.img-cls{
+    margin-left : 5px !important;
+}
+.fa-search:before{
+    position : relative;
+    left : 14px;
+}
