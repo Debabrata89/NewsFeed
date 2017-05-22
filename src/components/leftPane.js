@@ -12,7 +12,7 @@ export default class LeftPane extends React.Component {
     }
     render() {
         return (<div className="left-pane col-md-2">
-              {this.props.userType==='admin' ? <div id="story-btn"  onClick={this.handleCreate} className="btn btn-danger fa fa-pencil" > &nbsp;Create Stories</div>:null}
+              {this.props.userType==='analyst' ? <div id="story-btn"  onClick={this.handleCreate} className="btn btn-danger fa fa-pencil" > &nbsp;Create Stories</div>:null}
 
         </div>);
     }

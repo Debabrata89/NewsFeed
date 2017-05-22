@@ -21,7 +21,7 @@ export default class Detail extends React.Component {
                 <table>
                     <tbody>
                         <tr>
-                            <td>
+                            <td style={{width :'20%'}}>
                                 Title
                                 </td>
                             <td>
@@ -29,7 +29,7 @@ export default class Detail extends React.Component {
                             </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td style={{width :'20%'}}>
                                 Description </td>
                             <td> {this.props.data.description}
                             </td>

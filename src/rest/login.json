@@ -1,12 +1,12 @@
 [
     {
-        "userName": "admin",
-        "password": "admin",
-        "role": "admin"
+        "userName": "analyst",
+        "password": "analyst",
+        "role": "analyst"
     },
     {
-        "userName": "test",
-        "password": "test",
+        "userName": "trader",
+        "password": "trader",
         "role": "other"
     }
 ]

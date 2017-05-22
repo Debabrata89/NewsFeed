@@ -22,11 +22,13 @@
     align-items: center;
     justify-content: center;
     height:100%;
-    background: #139ff0 !important;
+    /*background: #139ff0 !important;*/
+    background: #dedede !important;
     width : 100%;
 }
 body{
-      background: #139ff0 !important;
+      /*background: #139ff0 !important;*/
+      background: #dedede !important;
 }
 
 .app-sm{
@@ -247,7 +249,7 @@ padding-right:5%;
     margin-left : 0;
     margin-right :0;
     height : 60px;
-    background : #283e4a;
+    background : #139ff0;
     position: fixed;
     z-index: 1000;
     width:100%;
@@ -263,16 +265,22 @@ h4{
 }
 .search-cls{
     width : 70% !important;
-    margin-top: 10px;
     height: 30px !important;
     border-radius: 5px;
     border : 1px solid gray;
-    padding-left : 14px;
+    padding-left : 22px;
+    font-weight: normal !important;
+    color : black;
 }
 .img-cls{
     margin-left : 5px !important;
 }
 .fa-search:before{
     position : relative;
-    left : 14px;
+    left : 22px;
+    color : black;
+    font-weight : normal;
+}
+.left-pane{
+    height: 100vh;
 }
